@@ -26,7 +26,7 @@ Proxy обрабатывает вызовы функций библиотеки 
 
 ![alt-текст](https://github.com/freebip/BipEmulator/raw/master/images/options.png "Настройки")
 
-![alt-текст](https://github.com/freebip/BipEmulator/raw/master/images/options.png "Отладочный вывод")
+![alt-текст](https://github.com/freebip/BipEmulator/raw/master/images/debug.png "Отладочный вывод")
 
 
 ## Использование
