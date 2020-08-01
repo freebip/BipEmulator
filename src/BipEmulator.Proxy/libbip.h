@@ -17,6 +17,7 @@
 #define abssub(x,y) ((x) > (y) ? (x)-(y) : (y)-(x))
 #endif
 
+#define VIDEO_MEMORY_SIZE 15488
 
 #define NULL ((void*)0)
 
@@ -197,6 +198,9 @@ typedef struct {
 #define NOTIFY_TYPE_CALL        39
 #define NOTIFY_TYPE_LOW_BAT     42
 
+
+// указатель на память экрана
+void* get_ptr_screen_memory();
 
 unsigned char get_var_menu_overlay();
 

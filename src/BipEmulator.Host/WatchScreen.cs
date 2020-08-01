@@ -35,6 +35,7 @@ namespace BipEmulator.Host
             _ftMaker = new FtMaker(_ftFile);
         }
 
+
         protected override void OnSizeChanged(EventArgs e)
         {
             Width = SIZE;
@@ -176,6 +177,44 @@ namespace BipEmulator.Host
         public static Color GetColorFromGRBInt(int value)
         {
             return Color.FromArgb(value & 0xff, (value >> 8) & 0xff, (value >> 16) & 0xff);
+        }
+
+        private Color GetColorByIndex(int index)
+        {
+            switch((ColorIndexEnum)index)
+            {
+                case ColorIndexEnum.Black:
+                    return Colors.Black;
+                case ColorIndexEnum.Blue:
+                    return Colors.Blue;
+                case ColorIndexEnum.Green:
+                    return Colors.Green;
+                case ColorIndexEnum.Aqua:
+                    return Colors.Aqua;
+                case ColorIndexEnum.Purple:
+                    return Colors.Purple;
+                case ColorIndexEnum.Red:
+                    return Colors.Red;
+                case ColorIndexEnum.Yellow:
+                    return Colors.Yellow;
+                default:
+                    return Colors.Black;
+            }
+        }
+
+        internal void SetVideoData(byte[] videoMemory)
+        {
+            var shadow = new FastBitmap(_shadowImage);
+            shadow.Lock();
+            var offset = 0;
+            for(var y=0;y<SIZE;y++)
+                for(var x=0;x<SIZE;x+=2)
+                {
+                    shadow.SetPixel(x, y, GetColorByIndex(videoMemory[offset] >> 4));
+                    shadow.SetPixel(x+1, y, GetColorByIndex(videoMemory[offset] & 0xf));
+                    offset++;
+                }
+            shadow.Unlock();
         }
     }
 }

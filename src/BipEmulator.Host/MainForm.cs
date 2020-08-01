@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.IO.MemoryMappedFiles;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -13,6 +14,7 @@ namespace BipEmulator.Host
 {
     public partial class MainForm : Form, IMessageFilter
     {
+        const int VIDEO_MEMORY_SIZE = 15488;
         /// <summary>
         /// Функция обратного вызова
         /// </summary>
@@ -28,6 +30,11 @@ namespace BipEmulator.Host
         private int _newDebugOutputLines = 0;
 
         private IntPtr _hrmDataPointer = IntPtr.Zero;
+
+        private bool _useSharedVideoMemory;
+        MemoryMappedFile _sharedMemoryFile;
+        MemoryMappedViewStream _sharedMemoryViewStream;
+        private byte[] _videoMemory = new byte[VIDEO_MEMORY_SIZE];
 
         public MainForm()
         {
@@ -134,7 +141,15 @@ namespace BipEmulator.Host
                     return ucScreen.GetTextWidth(args[1].ToString());
 
                 case FunctionNames.REPAINT_SCREEN_LINES:
+
+                    if (_useSharedVideoMemory)
+                    {
+                        _sharedMemoryViewStream.Position = 0;
+                        _sharedMemoryViewStream.Read(_videoMemory, 0, 15488);
+                        ucScreen.SetVideoData(_videoMemory);
+                    }
                     ucScreen.RepaintScreenLines((int)args[1], (int)args[2]);
+
                     if (ucScreen.InvokeRequired)
                     {
                         try
@@ -303,6 +318,10 @@ namespace BipEmulator.Host
                     }
                     return (int)locale;
 
+                case FunctionNames.SHARED_MEMORY_ENABLED:
+                    _useSharedVideoMemory = OpenFileMapping();
+                    return _useSharedVideoMemory ? 1 : 0;
+
                 // заглушки
 
                 case FunctionNames.VIBRATE:
@@ -319,6 +338,21 @@ namespace BipEmulator.Host
 
             }
             return null;
+        }
+
+        private bool OpenFileMapping()
+        {
+            try
+            {
+                _sharedMemoryFile = MemoryMappedFile.OpenExisting("meme", MemoryMappedFileRights.ReadWrite);
+                _sharedMemoryViewStream = _sharedMemoryFile.CreateViewStream();
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private LocaleEnum GetCurrentLocale()

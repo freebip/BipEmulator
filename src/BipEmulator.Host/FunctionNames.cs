@@ -29,5 +29,8 @@
         public const string TEXT_OUT_CENTER = "text_out_center";
         public const string TEXT_WIDTH = "text_width";
         public const string VIBRATE = "vibrate";
+
+        // special emulator functions
+        public const string SHARED_MEMORY_ENABLED = "__shared_memory_enabled__";
     }
 }

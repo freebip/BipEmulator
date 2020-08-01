@@ -32,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -55,6 +56,7 @@
   <ItemGroup>
     <Compile Include="BitReader.cs" />
     <Compile Include="ColorArray.cs" />
+    <Compile Include="ColorIndexEnum.cs" />
     <Compile Include="DisplayNameAttribute.cs" />
     <Compile Include="ColorSelectionForm.cs">
       <SubType>Form</SubType>

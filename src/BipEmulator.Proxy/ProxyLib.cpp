@@ -239,6 +239,10 @@ const char* SETTINGS_FILE = "settings.bin";
 static struct regmenu_* _stored_reg_menu;
 static struct global_app_data_t* global_app_data;
 
+HANDLE _shared_memory_handle = nullptr;
+void* _shared_memory_buffer = nullptr;
+
+
 int main_proxy()
 {
     // эмулируем первичный запуск
@@ -588,5 +592,22 @@ void switch_gps_pressure_sensors(int mode)
 void vTaskDelay(int delay_ms)
 {
     System::Threading::Tasks::Task::Delay(delay_ms);
+}
+
+void* get_ptr_screen_memory()
+{
+    if (_shared_memory_handle == nullptr)
+    {
+        _shared_memory_handle = CreateFileMapping((HANDLE)INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0, VIDEO_MEMORY_SIZE, L"meme");
+        if (_shared_memory_handle != nullptr)
+            _shared_memory_buffer = MapViewOfFile(_shared_memory_handle, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, VIDEO_MEMORY_SIZE);
+
+        if (_shared_memory_buffer != nullptr)
+        {
+            int res = BipEmulatorProxy::ProxyLib::CallbackInt("__shared_memory_enabled__");
+        }
+    }
+
+    return _shared_memory_buffer;
 }
 
