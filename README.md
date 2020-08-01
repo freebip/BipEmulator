@@ -57,7 +57,7 @@ struct calend_**    calend_p = get_ptr_temp_buf_2();
 Надо так:
 ```
 void* get_ptr_temp_buf_2();
-struct calend_**    calend_p = (calend_**) get_ptr_temp_buf_2();
+struct calend_**    calend_p = (struct calend_**) get_ptr_temp_buf_2();
 ```
 
 Proxy модуль является динамически линкуемой библиотекой (.dll), от которой зависит компиляция Host модуля.
