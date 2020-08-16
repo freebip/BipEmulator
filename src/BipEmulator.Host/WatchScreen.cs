@@ -144,6 +144,7 @@ namespace BipEmulator.Host
 
         private Color GetRealColor(Color color)
         {
+            //return color;
             switch ((uint)color.ToArgb())
             {
                 // red

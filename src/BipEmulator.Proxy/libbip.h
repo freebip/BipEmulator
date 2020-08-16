@@ -215,7 +215,8 @@ int _memclr(void* buf, int len);
 int _memcpy(void* dest, const void* srcptr, int num);
 //  встроенная в прошивку функция memset
 int _memset(void* buf, int len, int val);
-
+//    встроенная в прошивку функция memcmp
+int _memcmp(const void* p1, const void* p2, int size);                       
 
 int show_watchface();
 void* get_ptr_temp_buf_2();

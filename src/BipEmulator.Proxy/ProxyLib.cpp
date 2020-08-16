@@ -445,6 +445,12 @@ int _memset(void* buf, int len, int val)
     return (int)memset(buf, val, len);
 }
 
+int _memcmp(const void* p1, const void* p2, int size)
+{
+    return (int)memcmp(p1, p2, size);
+}
+
+
 int show_watchface()
 {
     return 0;

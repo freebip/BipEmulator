@@ -49,8 +49,8 @@ namespace BipEmulator.Host
 
                 if (_paletteColors > 0)
                     ReadPalette(br);
-                else if (_bitsPerPixel == 8 || _bitsPerPixel == 16 || _bitsPerPixel == 24 || _bitsPerPixel == 32)
-                    Debug.WriteLine("The image doesn't use a palette.");
+                //else if (_bitsPerPixel == 8 || _bitsPerPixel == 16 || _bitsPerPixel == 24 || _bitsPerPixel == 32)
+                //    Debug.WriteLine("The image doesn't use a palette.");
                 else
                     throw new ArgumentException(
                         "The image format is not supported. Please report the issue on https://bitbucket.org/valeronm/amazfitbiptools");
@@ -60,21 +60,21 @@ namespace BipEmulator.Host
 
         private void ReadHeader(BinaryReader br)
         {
-            Debug.WriteLine("Reading image header...");
+            //Debug.WriteLine("Reading image header...");
             _width = br.ReadUInt16();
             _height = br.ReadUInt16();
             _rowLengthInBytes = br.ReadUInt16();
             _bitsPerPixel = br.ReadUInt16();
             _paletteColors = br.ReadUInt16();
             _transparency = br.ReadUInt16() > 0;
-            Debug.WriteLine("Image header was read:");
-            Debug.WriteLine("Width: {0}, Height: {1}, RowLength: {2}", _width, _height, _rowLengthInBytes);
-            Debug.WriteLine("BPP: {0}, PaletteColors: {1}, Transaparency: {2}", _bitsPerPixel, _paletteColors, _transparency);
+            //Debug.WriteLine("Image header was read:");
+            //Debug.WriteLine("Width: {0}, Height: {1}, RowLength: {2}", _width, _height, _rowLengthInBytes);
+            //Debug.WriteLine("BPP: {0}, PaletteColors: {1}, Transaparency: {2}", _bitsPerPixel, _paletteColors, _transparency);
         }
 
         private void ReadPalette(BinaryReader br)
         {
-            Debug.WriteLine("Reading palette...");
+            //Debug.WriteLine("Reading palette...");
             _palette = new Color[_paletteColors];
             for (var i = 0; i < _paletteColors; i++)
             {
@@ -86,10 +86,10 @@ namespace BipEmulator.Host
                 if (padding != 0) Debug.WriteLine("Palette item {0} last byte is not zero: {1:X2}", i, padding);
 
                 var isColorValid = (r == 0 || r == 0xff) && (g == 0 || g == 0xff) && (b == 0 || b == 0xff);
-                if (isColorValid)
-                    Debug.WriteLine("Palette item {0}: R {1:X2}, G {2:X2}, B {3:X2}", i, r, g, b);
-                else
-                    Debug.WriteLine("Palette item {0}: R {1:X2}, G {2:X2}, B {3:X2}, color isn't supported!", i, r, g, b);
+                //if (isColorValid)
+                //    Debug.WriteLine("Palette item {0}: R {1:X2}, G {2:X2}, B {3:X2}", i, r, g, b);
+                //else
+                //    Debug.WriteLine("Palette item {0}: R {1:X2}, G {2:X2}, B {3:X2}, color isn't supported!", i, r, g, b);
 
                 var alpha = _transparency && i == 0 ? 0x00 : 0xff;
                 _palette[i] = Color.FromArgb(alpha, r, g, b);
