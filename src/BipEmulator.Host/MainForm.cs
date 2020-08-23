@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.IO.MemoryMappedFiles;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -191,16 +192,27 @@ namespace BipEmulator.Host
                     return 0;
 
                 case FunctionNames.GET_RES_PARAMS:
-                    var res = GetUserResImage((int)args[2]);
-                    if (res == null)
-                        return -1;
+                    {
+                        var res = GetUserResImage((int)args[2]);
+                        if (res == null)
+                            return -1;
 
-                    var bmp = res.Bitmap;
+                        var bmp = res.Bitmap;
 
-                    var param = new ResParam { Width=(short)bmp.Width, Height=(short)bmp.Height };
-                    CopyStructToUnmanagedMemory(param, (IntPtr)args[3]);
-                    return 0;
+                        var param = new ResParam { Width = (short)bmp.Width, Height = (short)bmp.Height };
+                        CopyStructToUnmanagedMemory(param, (IntPtr)args[3]);
+                        return 0;
+                    }
+                case FunctionNames.READ_ELF_RES_BY_ID:
+                    {
+                        // only own resources
+                        if ((int)args[1] != -1)
+                            return -1;
 
+                        var data = GetUserResData(/*resId*/(int)args[2],/*offset*/(int)args[3], (int)args[5]/*len*/);
+                        Marshal.Copy(data, 0, (IntPtr)args[4], data.Length);
+                        return 0;
+                    }
                 case FunctionNames.SHOW_BIG_DIGITS:
                     ShowBigDigit((int)args[1], args[2].ToString(), (int)args[3], (int)args[4], (int)args[5]);
                     break;
@@ -388,6 +400,27 @@ namespace BipEmulator.Host
             Marshal.StructureToPtr(t, pnt, false);
             Buffer.MemoryCopy(pnt.ToPointer(), dst.ToPointer(), Marshal.SizeOf(t), Marshal.SizeOf(t));
             Marshal.FreeHGlobal(pnt);
+        }
+
+        private byte[] GetUserResData(int resId, int offset, int len)
+        {
+            try
+            {
+                if (_userResFile == null)
+                {
+                    _userResFile = ResFile.Load(tbUserResFile.Text);
+                    var data = new byte[len];
+                    if (offset + len > _userResFile.Resources[resId].Length)
+                        return null;
+                    Buffer.BlockCopy(_userResFile.Resources[resId], 0,  data, 0, len);
+                    return data;
+                }
+            }
+            catch
+            {
+                Debug.WriteLine("Exception GetUserResData");
+            }
+            return null;
         }
 
         private ResImage GetUserResImage(int resId)

@@ -221,6 +221,16 @@ namespace BipEmulatorProxy
             return -1;
         }
 
+        static int CallbackInt(String^ fName, int p0, int p1, int p2, void* p3, int p4)
+        {
+            if (CallbackFunc != nullptr)
+            {
+                array<Object^>^ arr = gcnew array<Object^>(6) { fName, p0, p1, p2, gcnew IntPtr(p3), p4 };
+                return safe_cast<int>(CallbackFunc(arr));
+            }
+            return -1;
+        }
+
         static int CallbackInt(String^ fName, int p0, int p1, int p2, int p3)
         {
             if (CallbackFunc != nullptr)
@@ -394,7 +404,6 @@ int get_text_height()
     return BipEmulatorProxy::ProxyLib::CallbackInt("get_text_height");
 }
 
-
 int get_res_params(int index_listed, int res_id, struct res_params_* res_params)
 {
     return BipEmulatorProxy::ProxyLib::CallbackInt("get_res_params", index_listed, res_id, (void*)res_params);
@@ -538,6 +547,11 @@ int ElfWriteSettings(int index_listed, void* buffer, int offset, int len)
     outfile.write((char*)buffer, len);
     outfile.close();
     return 0;
+}
+
+int read_elf_res_by_id(int index_listed, int res_id, int offset, void* buffer, int len)
+{
+    return BipEmulatorProxy::ProxyLib::CallbackInt("read_elf_res_by_id", index_listed, res_id, offset, buffer, len);
 }
 
 void _srand(unsigned int seed)
