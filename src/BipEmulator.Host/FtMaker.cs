@@ -95,6 +95,9 @@ namespace BipEmulator.Host
 
         private int GetLetterWidth(char letter)
         {
+            if (_ftFile.Version == 9)
+                return 9;
+
             int width = 0;
             if (_ftFile.Letters.ContainsKey((int)letter))
             {
