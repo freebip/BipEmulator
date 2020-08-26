@@ -31,8 +31,8 @@ namespace BipEmulator.Host
 
         public void TextOutCenter(Bitmap bmp, string text, int x, int y, Color fgColor, Color bgColor, bool bgTransparent = false)
         {
-            var w = GetTextWidth(text);
             var h = GetTextHeight();
+            var w = GetTextWidth(text);
             TextOut(bmp, text, x - w / 2, y, fgColor, bgColor, bgTransparent);
         }
 
