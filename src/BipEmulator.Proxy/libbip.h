@@ -129,6 +129,9 @@ struct res_params_ {
     short height;     //  высота в рх     
 };
 
+#define INDEX_MAIN_RES  ((int)0xFFFF0000)
+#define ELF_INDEX_SELF  ((int)0xFFFFFFFF)
+
 // структуры данных датчика сердца
 // 1.1.5.12, 1.1.5.36
 typedef struct {
