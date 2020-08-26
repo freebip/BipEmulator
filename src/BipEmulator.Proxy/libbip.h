@@ -65,7 +65,7 @@ struct gesture_ {
 #define GESTURE_SWIPE_UP        2 // свайп снизу вверх
 #define GESTURE_SWIPE_DOWN      3 // свайп сверху вниз
 #define GESTURE_SWIPE_LEFT      4 // свайп справа налево
-#define GESTURE_SWIPE_RIGHT     5 // свайп слева направо
+#define GESTURE_SWIPE_RIGHT    5 // свайп слева направо
 
 // вид анимации для функции show_menu_animate
 #define ANIMATE_LEFT        0   // анимация перехода экрана справа налево
@@ -261,6 +261,8 @@ void draw_filled_rect_bg(int from_x, int from_y, int to_x, int to_y);
 int ElfReadSettings(int index_listed, void* buffer, int offset, int len);
 // запись секции настроек конкретного эльфа 
 int ElfWriteSettings(int index_listed, void* buffer, int offset, int len);
+// чтение данных ресурсов (стандартных и приложения) начиная с offset длиной len по его номеру res_id
+int read_elf_res_by_id(int index_listed, int res_id, int offset, void* buffer, int len);
 // отображение графического ресурса по его номеру
 void show_res_by_id(int res_ID, int pos_x, int pos_y);
 // отображает на экране графический ресурс конкретного эльфа, содержащийся в секции .elf.resources

@@ -19,6 +19,7 @@
         public const string LOG_PRINTF = "log_printf";
         public const string REG_MENU = "reg_menu";
         public const string REPAINT_SCREEN_LINES = "repaint_screen_lines";
+        public const string READ_ELF_RES_BY_ID = "read_elf_res_by_id";
         public const string SET_BG_COLOR = "set_bg_color";
         public const string SET_FG_COLOR = "set_fg_color";
         public const string SET_UPDATE_PERIOD = "set_update_period";
