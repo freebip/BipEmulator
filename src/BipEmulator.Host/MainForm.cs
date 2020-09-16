@@ -276,7 +276,7 @@ namespace BipEmulator.Host
                                 pressure = (uint)((float)nudPressure.Value * 133.322f),
                                 altitude = alt,
                                 latitude = (int)(3e6 * Math.Abs(lat)),
-                                ns = lat < 0 ? 1 : 0,
+                                ns = lat < 0 ? 0 : 1,
                                 longitude = (int)(3e6 * Math.Abs(lon)),
                                 ew = lon < 0 ? 2 : 3
                             };
