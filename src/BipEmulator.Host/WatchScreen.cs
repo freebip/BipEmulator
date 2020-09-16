@@ -107,19 +107,19 @@ namespace BipEmulator.Host
         public void DrawFilledRectBg(int x0, int y0, int x1, int y1)
         {
             var g = Graphics.FromImage(_shadowImage);
-            g.FillRectangle(_backBrush, x0, y0, x1 - x0, y1 - y0);
+            g.FillRectangle(_backBrush, x0, y0, x1 - x0 + 1, y1 - y0 + 1);
         }
 
         public void DrawFilledRect(int x0, int y0, int x1, int y1)
         {
             var g = Graphics.FromImage(_shadowImage);
-            g.FillRectangle(_foreBrush, x0, y0, x1 - x0, y1 - y0);
+            g.FillRectangle(_foreBrush, x0, y0, x1 - x0 + 1, y1 - y0 + 1);
         }
 
         public void DrawRect(int x0, int y0, int x1, int y1)
         {
             var g = Graphics.FromImage(_shadowImage);
-            g.DrawRectangle(_forePen, x0, y0, x1 - x0, y1 - y0);
+            g.DrawRectangle(_forePen, x0, y0, x1 - x0 + 1, y1 - y0 + 1);
         }
 
         public void DrawImage(Bitmap image, int x, int y)
